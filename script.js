@@ -1,4 +1,8 @@
 const containerVideos = document.querySelector(".videos__container");
+const menuContainer = document.querySelector(".superior__secao__container-wrapper");
+const checkboxContainer = document.querySelector(".cabecalho__switch-input");
+
+const musicaClick = new Audio('./audio/swoosh.mp3');
 
 const api = fetch("http://localhost:3000/videos")
 .then(res => res.json())
@@ -15,4 +19,9 @@ const api = fetch("http://localhost:3000/videos")
         </li>
       `;
     })
+)
+
+checkboxContainer.addEventListener('change', () =>{
+  musicaClick.play();
+}
 )
