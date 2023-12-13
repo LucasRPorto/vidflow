@@ -2,6 +2,9 @@ const containerVideos = document.querySelector(".videos__container");
 const checkboxContainer = document.querySelector(".cabecalho__switch-input");
 const contextoTipo = document.querySelectorAll(".superior__item");
 const pesquisarBtn = document.querySelector(".pesquisar__btn");
+const logoItem = document.querySelector(".logo__item");
+const inicioMenu = document.querySelector(".menu__itens");
+const itemMenuSuperior = document.querySelectorAll(".superior__item");
 
 const musicaClick = new Audio('./audio/swoosh.mp3');
 
@@ -47,3 +50,39 @@ checkboxContainer.addEventListener('change', () =>{
   musicaClick.play();
 }
 )
+
+logoItem.addEventListener('click', (evento) => {
+  evento = listaVideos();
+})
+
+inicioMenu.addEventListener('click', (evento) => {
+  evento = listaVideos();
+})
+
+itemMenuSuperior.forEach((itemDoMenu) => {
+  itemDoMenu.addEventListener('click', (evento) => {
+
+    while(containerVideos.firstChild){
+      containerVideos.removeChild(containerVideos.firstChild);
+    }
+
+    const nomeDoItem = itemDoMenu.getAttribute("name");
+    const nomeDoItemFormatado = nomeDoItem.toString()
+    evento.preventDefault();
+    console.log(nomeDoItemFormatado);
+
+    itemMenuSuperior.forEach((itemDoMenu) => {
+      if(itemDoMenu.classList.contains("active")){
+        itemDoMenu.classList.remove("active");
+      }
+    })
+
+    itemDoMenu.classList.add("active");
+
+    if(nomeDoItemFormatado == "Tudo"){
+      listaVideos();
+    }else{
+    listaVideos(`?categoria=${nomeDoItemFormatado}`);
+    }
+  })
+})

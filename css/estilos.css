@@ -181,7 +181,7 @@ body {
     width: 200px;
 }
 
-.superior__item active{
+.superior__item.active{
     color: var(--branco);
     font-size: 16px;
     background-color: var(--azul-destaque-light);
@@ -495,21 +495,6 @@ body {
     position: relative;
 }
 
-.superior__item {
-    color: var(--cinza-escuro);
-    font-size: 16px;
-    background-color: var(--cinza-claro);
-    border-radius: 20px;
-    padding: 8px 20px;
-    cursor: pointer;
-    width: 200px;
-}
-
-.superior__item:hover {
-    color: var(--branco);
-    background-color: var(--azul-destaque-light);
-    transition: .5s;
-}
 
 .superior__slider{
     position: absolute;
