@@ -5,10 +5,11 @@ const pesquisarBtn = document.querySelector(".pesquisar__btn");
 const logoItem = document.querySelector(".logo__item");
 const inicioMenu = document.querySelector(".menu__itens");
 const itemMenuSuperior = document.querySelectorAll(".superior__item");
+const cadastroVideoBtn = document.querySelector(".cabecalho__videos");
 
 const musicaClick = new Audio('./audio/swoosh.mp3');
 
-async function buscaVideo(parametro = ""){
+async function buscaVideo(parametro = ""){ //Requisicao GET para busca de videos do JSON
   const api = await fetch(`http://localhost:3000/videos/${parametro}`);
   const conexaoConvertida = await api.json();
 
@@ -16,7 +17,25 @@ async function buscaVideo(parametro = ""){
   return conexaoConvertida;
 }
 
-async function listaVideos( parametro=""){
+async function criaVideo(dadosFormatado){ // Requisicao POST para criação de vídeos
+
+  await fetch(`http://localhost:3000/videos/`, {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "id": 19,
+      "titulo": dadosFormatado.titulo,
+      "descricao": dadosFormatado.descricao,
+      "url": dadosFormatado.url,
+      "imagem": dadosFormatado.imagem,
+      "categoria": dadosFormatado.categoria
+    })
+  });
+}
+
+async function listaVideos( parametro=""){ // Listar os vídeos do JSON. Caso seja passado um parâmetro (opcional) será realizada a pesquisa filtrada.
 
   const videos = await buscaVideo(parametro);
   await videos.forEach((video) => {
@@ -33,9 +52,9 @@ async function listaVideos( parametro=""){
   })
 }
 
-listaVideos();
+listaVideos(); // Para listar os vídeos na primeira vez que a página é carregada
 
-pesquisarBtn.addEventListener('click', (evento) => {
+pesquisarBtn.addEventListener('click', (evento) => { // Busca por texto presente na barra de pesquisa
 
   while(containerVideos.firstChild){
     containerVideos.removeChild(containerVideos.firstChild);
@@ -59,7 +78,7 @@ inicioMenu.addEventListener('click', (evento) => {
   evento = listaVideos();
 })
 
-itemMenuSuperior.forEach((itemDoMenu) => {
+itemMenuSuperior.forEach((itemDoMenu) => { // Busca por itens do Menu
   itemDoMenu.addEventListener('click', (evento) => {
 
     while(containerVideos.firstChild){
@@ -86,3 +105,18 @@ itemMenuSuperior.forEach((itemDoMenu) => {
     }
   })
 })
+
+cadastroVideoBtn.addEventListener('click', () => { // Sempre quando clicar no ícone de cadastro de vídeo é chamada a requisição POST
+  criaVideo(objetoDeTeste);
+  listaVideos();
+  console.log("Em tese é para ter listado " )
+})
+
+const objetoDeTeste= { // Utilizado apenas para testar a requisição POST
+  "id": 19,
+  "titulo": "dadosFormatado.titulo",
+  "descricao": "dadosFormatado.descricao",
+  "url": "https://www.youtube.com/embed/y8FeZMv37WU",
+  "imagem": "https://github.com/MonicaHillman/aluraplay-requisicoes/blob/main/img/logo.png?raw=true",
+  "categoria": "Programação"
+}
